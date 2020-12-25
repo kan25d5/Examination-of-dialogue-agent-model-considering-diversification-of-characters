@@ -1,0 +1,12 @@
+{
+    "pM": {
+        "place": {},
+        "object": {},
+        "act": {
+            "サッカー": {
+                "interest": 0.4,
+                "intimacy": 0.2
+            }
+        }
+    }
+}

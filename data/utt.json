@@ -1,0 +1,7 @@
+{
+    "situation-dayoff": {
+        "anser_act": "__nominative__は休日は__place__で__act__してるよ。",
+        "ask_act": "__user__は何してるの？"
+    },
+    "situation-eat": {}
+}

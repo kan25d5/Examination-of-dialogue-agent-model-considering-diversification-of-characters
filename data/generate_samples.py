@@ -2,7 +2,6 @@ import re
 import csv
 import random
 import xml.etree.ElementTree as ET
-from helper.helper_functions import load_json
 
 
 SITUATION_CONEPT_PATH = "data/situation_concepts.json"
@@ -10,7 +9,7 @@ SITUATION_CONEPT_PATH = "data/situation_concepts.json"
 
 class GenerateSamples(object):
     """
-    docstring
+    訓練元データを増幅する
     """
 
     def __init__(self, base_training_path, training_path, situation_concepts):

@@ -34,19 +34,25 @@ class PredictDialogActType(object):
 
         if os.path.exists(self.model_path):
             # モデルをロード
-            self.load_model()
+            self.__load_model()
         else:
             # モデルを作成する
-            self.generate_training_data()
-            self.train_predicter()
+            self.__generate_training_data()
+            self.__train_predicter()
 
-    def load_model(self):
+    def __load_model(self):
         with open(self.model_path, "rb") as f:
             self.vectorizer = dill.load(f)
             self.label_encoder = dill.load(f)
             self.svc = dill.load(f)
 
-    def generate_training_data(self):
+    def __write_model(self):
+        with open(self.model_path, "wb") as f:
+            dill.dump(self.vectorizer, f)
+            dill.dump(self.label_encoder, f)
+            dill.dump(self.svc, f)
+
+    def __generate_training_data(self):
         base_training_file = "data/" + self.situation_name + ".xml"
         training_file = "data/" + self.situation_name + ".csv"
         json_dic = load_json(SITUATION_CONCEPTS)
@@ -69,7 +75,7 @@ class PredictDialogActType(object):
         # 訓練データをDataFrameへ変換
         self.training_data = pd.read_csv(training_file)
 
-    def train_predicter(self):
+    def __train_predicter(self):
         # 発話データを分かち書きしてベクトル化
         self.vectorizer = TfidfVectorizer(analyzer=tokenizer)
         X = self.vectorizer.fit_transform(self.training_data["utt"])
@@ -82,11 +88,7 @@ class PredictDialogActType(object):
         self.svc = SVC(gamma="scale")
         self.svc.fit(X, Y)
 
-        # モデルをアウトプット
-        with open(self.model_path, "wb") as f:
-            dill.dump(self.vectorizer, f)
-            dill.dump(self.label_encoder, f)
-            dill.dump(self.svc, f)
+        self.__write_model()
 
     def predict_da(self, text):
         """対話行為タイプを推定"""
@@ -94,3 +96,12 @@ class PredictDialogActType(object):
         Y = self.svc.predict(X)  # 予測
         da = self.label_encoder.inverse_transform(Y)[0]  # ラベルを返す
         return da
+
+    def get_situation(self, text):
+        """シチュエーションを推定してクラスを返す"""
+        situation_type = self.predict_da(text)
+
+        if situation_type == "situation-eat":
+            from situation.situation_eat import SituationEat
+
+            return SituationEat

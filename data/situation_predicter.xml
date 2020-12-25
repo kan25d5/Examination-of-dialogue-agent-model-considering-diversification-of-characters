@@ -1,4 +1,4 @@
-da=request-eat
+da=situation-eat
 <date>明日</date>、<place>松屋</place>食いに行こうよ
 <date>明日</date>、<place>松屋</place>食べに行こうよ
 <date>明日</date>、<place>松屋</place>行こ
@@ -65,14 +65,14 @@ da=request-eat
 めし行こ
 飯行こ
 
-da=dayoff
+da=situation-dayoff
 <dayoff>休日</dayoff>何してる？
 <dayoff>休日</dayoff>は何してるの？
 <dayoff>休日</dayoff>はどんなことしてる？
 <dayoff>休日</dayoff>はいつもどう過ごしてる？
 <dayoff>休日</dayoff>はどう過ごすの？
 
-da=initialize
+da=situation-initialize
 そうじゃなくて
 そうじゃない
 そうじゃないよ
