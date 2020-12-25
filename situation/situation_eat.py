@@ -1,16 +1,28 @@
+import copy
 from situation.situation_base import SituationBase
 
 
 class SituationEat(SituationBase):
     """
-    docstring
+    ご飯誘いシチュエーション
     """
 
     def __init__(self) -> None:
+        self.pre_frame = {}
         super().__init__(self.__str__())
 
     def __update_sysda(self, text) -> str:
-        return "test"
+        if self.frame["date"] == "":
+            self.is_update_frame = True
+            return "ask-date"
+        elif self.frame["place"] == "":
+            return "ask-place"
+        elif self.frame["type"] == "":
+            return "ask-type"
+        elif self.frame["genre"] == "":
+            return "ask-genre"
+        else:
+            return "anser"
 
     def get_sysda(self, text):
         self._update_frame(text)

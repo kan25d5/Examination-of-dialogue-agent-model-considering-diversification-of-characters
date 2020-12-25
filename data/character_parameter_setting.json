@@ -1,0 +1,50 @@
+{
+    "character-pM": {
+        "genre": {
+            "ラーメン": {
+                "emotion": 0.0,
+                "interest": 0.4
+            },
+            "寿司": {
+                "emotion": 0.0,
+                "interest": 0.5
+            },
+            "ステーキ": {
+                "emotion": 0.0,
+                "interest": 0.5
+            },
+            "焼き肉": {
+                "emotion": 0.0,
+                "interest": 0.7
+            },
+            "焼肉": {
+                "emotion": 0.0,
+                "interest": 0.7
+            },
+            "カフェ": {
+                "emotion": 0.0,
+                "interest": 0.4
+            },
+            "居酒屋": {
+                "emotion": 0.0,
+                "interest": 0.5
+            },
+            "中華": {
+                "emotion": 0.0,
+                "interest": 0.4
+            },
+            "そば": {
+                "emotion": 0.0,
+                "interest": 0.2
+            },
+            "牛丼": {
+                "emotion": 0.0,
+                "interest": 0.2
+            },
+            "ファミレス": {
+                "emotion": 0.0,
+                "interest": 0.4
+            }
+        }
+    }
+}
