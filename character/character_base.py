@@ -48,7 +48,6 @@ class CharacterModel(object):
         point = self.__oseti.analyze(text)[0]
         # ネガポジ値を[-1,1]で得る
         emotion = ((2 * point - 1) / 2) * 2
-        print("point", point, "emotion", emotion)
         return emotion
 
     def __is_update_frame(self, frame):
