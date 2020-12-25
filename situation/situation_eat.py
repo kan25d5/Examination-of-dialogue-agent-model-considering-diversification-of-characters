@@ -1,4 +1,3 @@
-import copy
 from situation.situation_base import SituationBase
 
 

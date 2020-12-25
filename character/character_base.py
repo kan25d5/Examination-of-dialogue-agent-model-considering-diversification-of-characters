@@ -1,6 +1,5 @@
 import copy
 import oseti
-import numpy as np
 from situation.situation_base import SituationBase
 from stadist_simple_api.api import Stations
 from helper.helper_functions import load_json
@@ -68,10 +67,10 @@ class CharacterModel(object):
                 concept = concept_dic[f[key]]
                 self.emotion += concept["emotion"]
                 self.interest += concept["interest"]
+                self.intimacy += concept["interest"]
 
         if self.__is_update_frame(f):
-            # フレーム情報が更新されるなら
-            # 場所から感情値の更新
+            # フレーム情報が更新されるなら、場所から感情値の更新
             if "place" in f.keys():
                 if f["place"] != "":
                     self.emotion -= self.get_emotion_by_distance()
@@ -80,4 +79,5 @@ class CharacterModel(object):
             # その発話からネガポジ値を推定し感情値に反映
             self.emotion += self.get_emotion_by_text(text)
 
+        # 値渡しで__previous_situation_frameに現在のフレームを更新
         self.__previous_situation_frame = copy.deepcopy(f)
