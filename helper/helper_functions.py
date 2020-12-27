@@ -46,3 +46,23 @@ def load_json(filepath):
     with open(filepath, "r") as f:
         json_ = json.load(f)
     return json_
+
+
+def select_character(self, i):
+    if i == 0:
+        from character.pM import CharacterPM
+
+        return CharacterPM
+    elif i == 1:
+        from character.pF import CharacterPF
+
+        return CharacterPF
+    elif i == 2:
+        from character.nM import CharacterNM
+
+        return CharacterNM
+    elif i == 3:
+        from character.nF import CharacterNF
+
+        return CharacterNF
+

@@ -1,49 +1,94 @@
-from numpy.core import _ufunc_reconstruct
+import pandas as pd
 from situation.situation_base import SituationBase
+from numpy import sqrt
+
+MAX_DISTANCE = 40000
+STATION_FILE_PATH = "data/stations-simplify.csv"
 
 
 class SituationEat(SituationBase):
     """
-    ご飯誘いシチュエーション
+    食事会話シチュエーションモデル
     """
 
     def __init__(self) -> None:
-        self.pre_frame = {}
+        self.__sation_df = pd.read_csv(STATION_FILE_PATH)
         super().__init__(self.__str__())
 
-    def __update_sysda(self, text) -> str:
-        if self.frame["date"] == "":
-            return "ask-date"
-        elif self.frame["genre"] == "":
-            return "ask-genre"
-        elif self.frame["place"] == "":
-            return "ask-place"
-        else:
-            if self.user_da == "chatting":
-                return "chatting"
-            else:
-                return "anser"
-
-    def anser_sysda(self, anser_type: str):
-        """
-        会話シチュエーションで「行かない」
-        趣味シチュエーションで「同意しない」場合はnegative
-        """
-        if self.user_da == "chatting" and self.sys_da == "chatting":
-            if anser_type == "negative":
-                return "re-reject-invite"
-            else:
-                return "re-consent-invite"
-        else:
-            if anser_type == "negative":
-                return "reject-invite"
-            else:
-                return "consent-invite"
-
-    def get_sysda(self, text):
+    def update_sys_da(self, text):
+        """テキストからシステム対話行為を推定"""
         self._update_frame(text)
-        self.sys_da = self.__update_sysda(text)
+
+        # フレーム情報が満タンな状態 → 行動する／しないを答える状態
+        if self._is_fill_frame():
+            # 総合点が閾値を超えた → 行動する
+            if self.__is_character_act():
+                if not self.is_update_frame():
+                    self.sys_da = "re-act"
+                else:
+                    self.sys_da = "act"
+            # 総合点が閾値を下回った → 行動しない
+            else:
+                if not self._is_update_frame():
+                    self.sys_da = "re-not-act"
+                else:
+                    self.sys_da = "not-act"
+        else:
+            if self.frame["date"] == "":
+                self.sys_da = "ask-date"
+            elif self.frame["genre"] == "":
+                self.sys_da = "ask-genre"
+            elif self.frame["place"] == "":
+                self.sys_da = "ask-place"
+
         return self.sys_da
+
+    def update_user_da(self):
+        """フレーム情報からユーザー対話行為を推定"""
+        if self.sys_da.startswith("ask-"):
+            return self.user_da
+        else:
+            self.user_da = "chatting"
+            return self.user_da
+
+    def update_parameter_by_frame(self):
+        """フレーム情報から感情度を算出"""
+        if self.user_da == "anser-place":
+            self.character.emotion -= self.__update_emotion_by_distance(
+                self.frame["place"]
+            )
+
+    def __is_character_act(self):
+        return self.character.threshold_point < self.character.calculate_point()
+
+    def __get_distance(self, dest):
+        """神奈川工科大学から場所までの距離を算出"""
+        ox, oy = -44662, -56845
+        dx, dy = (
+            self.__sation_df[self.__sation_df.station == dest].iloc[0, :].values[1:3]
+        )
+        return int(round(sqrt((ox - dx) ** 2 + (oy - dy) ** 2)))
+
+    def __update_emotion_by_distance(self, place):
+        """近いとの距離から感情度を加算"""
+        # ２駅間の距離を算出
+        distance = self.__get_distance(place)
+        # 距離をMAX_DISTANCE以上にしない
+        distance = distance if distance < MAX_DISTANCE else MAX_DISTANCE
+        # [0,1]で正規化
+        emotion = distance / MAX_DISTANCE
+
+        print("emotion", self.emotion, emotion)
+        self.character.emotion -= emotion
+
+    def __update_emotion_by_time(self):
+        """現在時刻から感情度を加算"""
+        # hour = datetime.now().hour
+        hour = self.now_time
+        hour = hour + 24 if hour >= 0 and hour <= 5 else hour
+        f = lambda hour: (hour - 18) / (26 - 18) if hour <= 24 else 1.0
+
+        self.character.emotion -= f(f)
 
     def __str__(self) -> str:
         return "situation-eat"

@@ -1,48 +1,58 @@
+import copy
 from helper.helper_functions import load_json
-
+from character.character_base import CharacterBase
 
 SITUATION_CONCEPTS = "data/situation_concepts.json"
 
 
 class SituationBase(object):
     """
-    会話シチュエーションモデル
-    ------
-    sys_da : str
-        システム対話行為タイプ
-    user_da : ste
-        ユーザ対話行為タイプ
-    frame : dict
-        フレーム情報
+    会話シチュエーションモデルの基底クラス
     """
 
-    def __init__(self, situation: str) -> None:
-        self.situation = situation
-        self.sys_da = "None"
-        self.user_da = "None"
+    def __init__(self, situation_str: str) -> None:
+        self.situation_str = situation_str
+        self.sys_da = ""
+        self.user_da = ""
         self.frame = {}
+        self.pre_frame = {}
+        self.chatting_flag = False
+        self.character = None
         self.situation_concept = self.__get_situation_concept()
         self._init_frame()
 
-    def __get_situation_concept(self) -> dict:
-        return load_json(SITUATION_CONCEPTS)[self.situation]
+    def set_character(self, character: CharacterBase):
+        self.character = character
 
     def _init_frame(self):
         for key in self.situation_concept.keys():
             self.frame[key] = ""
 
     def _update_frame(self, text):
-        if (
-            self.frame["date"] != ""
-            and self.frame["place"] != ""
-            and self.frame["genre"] != ""
-        ):
-            self.user_da = "chatting"
-            return
+        self.pre_frame = copy.deepcopy(self.frame)
 
-        for concept_pair in self.situation_concept.items():
-            concept_key = concept_pair[0]
-            for concept_value in concept_pair[1]:
-                if concept_value in text:
-                    self.user_da = "anser-" + concept_key
-                    self.frame[concept_key] = concept_value
+        for key in self.situation_concept.keys():
+            for concept in self.situation_concept[key]:
+                if concept in text:
+                    self.frame[key] = concept
+                    self.user_da = "anser-" + key
+        return self.user_da
+
+    def _is_update_frame(self):
+        return self.pre_frame != self.frame
+
+    def _is_fill_frame(self):
+        for key in self.frame.keys():
+            if self.frame[key] == "":
+                return False
+        return True
+
+    def _is_init_frame(self):
+        for key in self.frame.keys():
+            if self.frame[key] != "":
+                return False
+        return True
+
+    def __get_situation_concept(self) -> dict:
+        return load_json(SITUATION_CONCEPTS)[self.situation_str]
+
