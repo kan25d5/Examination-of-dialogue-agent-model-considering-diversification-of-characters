@@ -1,3 +1,4 @@
+from numpy.core import _ufunc_reconstruct
 from situation.situation_base import SituationBase
 
 
@@ -12,16 +13,32 @@ class SituationEat(SituationBase):
 
     def __update_sysda(self, text) -> str:
         if self.frame["date"] == "":
-            self.is_update_frame = True
             return "ask-date"
-        elif self.frame["place"] == "":
-            return "ask-place"
-        elif self.frame["type"] == "":
-            return "ask-type"
         elif self.frame["genre"] == "":
             return "ask-genre"
+        elif self.frame["place"] == "":
+            return "ask-place"
         else:
-            return "anser"
+            if self.user_da == "chatting":
+                return "chatting"
+            else:
+                return "anser"
+
+    def anser_sysda(self, anser_type: str):
+        """
+        会話シチュエーションで「行かない」
+        趣味シチュエーションで「同意しない」場合はnegative
+        """
+        if self.user_da == "chatting" and self.sys_da == "chatting":
+            if anser_type == "negative":
+                return "re-reject-invite"
+            else:
+                return "re-consent-invite"
+        else:
+            if anser_type == "negative":
+                return "reject-invite"
+            else:
+                return "consent-invite"
 
     def get_sysda(self, text):
         self._update_frame(text)

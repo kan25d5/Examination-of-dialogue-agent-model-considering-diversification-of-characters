@@ -3,6 +3,7 @@ import CaboCha
 
 
 USER_DIC = "-d /usr/local/lib/mecab/dic/mecab-ipadic-neologd/"
+# USER_DIC = ""
 
 
 class Morph(object):

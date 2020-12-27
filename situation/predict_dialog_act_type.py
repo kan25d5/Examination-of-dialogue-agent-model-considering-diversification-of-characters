@@ -22,14 +22,14 @@ class PredictDialogActType(object):
       推定したいシチュエーションの名前
       同名の訓練元データがdataフォルダ内に存在している必要がある
 
-    is_base_situation : bool(False)
+    is_predict_situation_domain : bool(False)
       ユーザの第一発話から
-      シチュエーションを推定するモデルの生成したい場合
+      シチュエーションドメインを推定するモデルの生成したい場合
     """
 
-    def __init__(self, situation_name, is_base_situation=False):
+    def __init__(self, situation_name, is_predict_situation_domain=False):
         self.situation_name = situation_name
-        self.is_base_situation = is_base_situation
+        self.is_predict_situation_domain = is_predict_situation_domain
         self.model_path = "situation/" + self.situation_name + ".model"
 
         if os.path.exists(self.model_path):
@@ -57,7 +57,7 @@ class PredictDialogActType(object):
         training_file = "data/" + self.situation_name + ".csv"
         json_dic = load_json(SITUATION_CONCEPTS)
 
-        if self.is_base_situation:
+        if self.is_predict_situation_domain:
             # シチュエーション推定モデルなら
             # コンセプトデータを結合して訓練データを生成
             dic = {}

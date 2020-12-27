@@ -7,6 +7,13 @@ SITUATION_CONCEPTS = "data/situation_concepts.json"
 class SituationBase(object):
     """
     会話シチュエーションモデル
+    ------
+    sys_da : str
+        システム対話行為タイプ
+    user_da : ste
+        ユーザ対話行為タイプ
+    frame : dict
+        フレーム情報
     """
 
     def __init__(self, situation: str) -> None:
@@ -25,8 +32,17 @@ class SituationBase(object):
             self.frame[key] = ""
 
     def _update_frame(self, text):
+        if (
+            self.frame["date"] != ""
+            and self.frame["place"] != ""
+            and self.frame["genre"] != ""
+        ):
+            self.user_da = "chatting"
+            return
+
         for concept_pair in self.situation_concept.items():
             concept_key = concept_pair[0]
             for concept_value in concept_pair[1]:
                 if concept_value in text:
+                    self.user_da = "anser-" + concept_key
                     self.frame[concept_key] = concept_value

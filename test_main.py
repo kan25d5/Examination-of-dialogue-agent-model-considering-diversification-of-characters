@@ -1,5 +1,6 @@
 from situation.predict_dialog_act_type import PredictDialogActType
 from character.pM import CharacterPM
+from character.nM import CharacterNM
 from helper.tokenizer import preprocess
 
 
@@ -9,41 +10,86 @@ def utt_input():
     return text
 
 
-def main():
+utts = ["今日飯行かね？", "ラーメン屋行かない？", "海老名駅前", "美味しいよ"]
+
+
+def pM():
     pda = PredictDialogActType("situation_predicter", True)
 
-    user_utt = "今日本厚木でご飯行きませんか？"
+    utt = utts[0]
 
-    situation = pda.get_situation(user_utt)()
-    situation.get_sysda(user_utt)
-
+    situation = pda.get_situation(utt)()
+    situation.get_sysda(utt)
     character = CharacterPM(situation)
-    character.reply(user_utt)
-    print("utt", user_utt)
+
+    print("utt :", utt)
+    print("reply :", character.reply(utt))
+    print("システム対話行為推定", situation.sys_da)
+    print("ユーザ対話行為推定", situation.user_da)
+    print("フレーム", situation.frame)
     print("関心度", character.interest)
     print("感情度", character.emotion)
     print("親密度", character.intimacy)
+    print("総合点", character.calculate_point())
     print("------------")
 
-    user_utt = "牛丼とかどう？"
-    situation.get_sysda(user_utt)
+    for i in range(1, len(utts), 1):
+        utt = utts[i]
+        situation.get_sysda(utt)
 
-    character.reply(user_utt)
-    print("utt", user_utt)
+        print("utt :", utt)
+        print("reply :", character.reply(utt))
+        print("フレーム", situation.frame)
+        print("システム対話行為推定", situation.sys_da)
+        print("ユーザ対話行為推定", situation.user_da)
+        print("関心度", character.interest)
+        print("感情度", character.emotion)
+        print("親密度", character.intimacy)
+        print("総合点", character.calculate_point())
+        print("------------")
+
+
+def nM():
+    pda = PredictDialogActType("situation_predicter", True)
+
+    utt = utts[0]
+
+    situation = pda.get_situation(utt)()
+    situation.get_sysda(utt)
+    character = CharacterNM(situation)
+
+    print("utt :", utt)
+    print("reply :", character.reply(utt))
+    print("システム対話行為推定", situation.sys_da)
+    print("ユーザ対話行為推定", situation.user_da)
+    print("フレーム", situation.frame)
     print("関心度", character.interest)
     print("感情度", character.emotion)
     print("親密度", character.intimacy)
+    print("総合点", character.calculate_point())
     print("------------")
 
-    user_utt = "凄い美味しいよ"
-    situation.get_sysda(user_utt)
+    for i in range(1, len(utts), 1):
+        utt = utts[i]
+        situation.get_sysda(utt)
 
-    character.reply(user_utt)
-    print("utt", user_utt)
-    print("関心度", character.interest)
-    print("感情度", character.emotion)
-    print("親密度", character.intimacy)
+        print("utt :", utt)
+        print("reply :", character.reply(utt))
+        print("フレーム", situation.frame)
+        print("システム対話行為推定", situation.sys_da)
+        print("ユーザ対話行為推定", situation.user_da)
+        print("関心度", character.interest)
+        print("感情度", character.emotion)
+        print("親密度", character.intimacy)
+        print("総合点", character.calculate_point())
+        print("------------")
 
 
 if __name__ == "__main__":
-    main()
+    print("外交的男性の会話シチュエーション：")
+    pM()
+    print()
+    print("#################################")
+    print()
+    print("内向的男性の会話シチュエーション：")
+    nM()

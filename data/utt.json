@@ -3,5 +3,15 @@
         "anser_act": "__nominative__は休日は__place__で__act__してるよ。",
         "ask_act": "__user__は何してるの？"
     },
-    "situation-eat": {}
+    "situation-eat": {
+        "ask-date": "何時にする？",
+        "ask-place": "どこで食べるの？",
+        "ask-type": "夜にする？",
+        "ask-genre": "何にする？",
+        "consent-concept": "__concept__だね。",
+        "reject-invite": "ごめんね今日は良いや",
+        "consent-invite": "じゃあ__date__に__place__駅前待ち合わせね",
+        "re-reject-invite": "やっぱり今日は良いや",
+        "re-consent-invite": "それなら良いよ。__date__に__place__駅前待ち合わせね"
+    }
 }
