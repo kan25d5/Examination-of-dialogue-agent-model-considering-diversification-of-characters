@@ -1,4 +1,8 @@
 from situation.situation_domain_predict import SituationDomainPredict
+from character.pM import CharacterPM
+
+CM = CharacterPM()
+UTTS = ["今日飯行かね？", "牛丼とかどう？", "海老名にあるんだけど", "美味しいって噂の店だよ"]
 
 
 class DialogSystem(object):
@@ -24,20 +28,26 @@ class DialogSystem(object):
 
         self.user_da = self.situation.update_user_da()
         self.sys_da = self.situation.update_sys_da(text)
+        self.situation.update_parameter_by_frame()
+        reply = self.character.reply(text)
 
         print("user_utt :", text)
+        print("sys_utt :", reply)
         print("frame", self.situation.frame)
         print("sys_da", self.sys_da)
         print("user_da", self.user_da)
+        print("感情度", self.character.emotion)
+        print("関心度", self.character.interest)
+        print("親身度", self.character.intimacy)
+        print("point", self.character.calculate_point())
 
 
 if __name__ == "__main__":
-    from character.pM import CharacterPM
 
     system = DialogSystem()
-    system.character = CharacterPM()
+    system.character = CM
 
-    utts = ["今日飯行かね？", "牛丼とかどう？", "海老名にあるんだけど", "美味しいって噂の店だよ"]
+    utts = UTTS
     for text in utts:
         system.reply(text)
         print()

@@ -17,13 +17,16 @@ class SituationEat(SituationBase):
 
     def update_sys_da(self, text):
         """テキストからシステム対話行為を推定"""
+        # フレーム情報を更新
         self._update_frame(text)
+        # テキストからキャラクタパラメータを更新
+        self.character.update_point(text)
 
         # フレーム情報が満タンな状態 → 行動する／しないを答える状態
         if self._is_fill_frame():
             # 総合点が閾値を超えた → 行動する
             if self.__is_character_act():
-                if not self.is_update_frame():
+                if not self._is_update_frame():
                     self.sys_da = "re-act"
                 else:
                     self.sys_da = "act"
@@ -54,12 +57,10 @@ class SituationEat(SituationBase):
     def update_parameter_by_frame(self):
         """フレーム情報から感情度を算出"""
         if self.user_da == "anser-place":
-            self.character.emotion -= self.__update_emotion_by_distance(
-                self.frame["place"]
-            )
+            self.__update_emotion_by_distance(self.frame["place"])
 
     def __is_character_act(self):
-        return self.character.threshold_point < self.character.calculate_point()
+        return self.character.threshold_point <= self.character.calculate_point()
 
     def __get_distance(self, dest):
         """神奈川工科大学から場所までの距離を算出"""
@@ -78,17 +79,7 @@ class SituationEat(SituationBase):
         # [0,1]で正規化
         emotion = distance / MAX_DISTANCE
 
-        print("emotion", self.emotion, emotion)
         self.character.emotion -= emotion
-
-    def __update_emotion_by_time(self):
-        """現在時刻から感情度を加算"""
-        # hour = datetime.now().hour
-        hour = self.now_time
-        hour = hour + 24 if hour >= 0 and hour <= 5 else hour
-        f = lambda hour: (hour - 18) / (26 - 18) if hour <= 24 else 1.0
-
-        self.character.emotion -= f(f)
 
     def __str__(self) -> str:
         return "situation-eat"

@@ -1,3 +1,9 @@
 {
-    "situation-eat": {}
+    "situation-eat": {
+        "ask-genre": "ask-genre",
+        "ask-place": "ask-place",
+        "ask-date": "ask-date",
+        "not-act": "not-act",
+        "re-not-act": " re-not-act"
+    }
 }
