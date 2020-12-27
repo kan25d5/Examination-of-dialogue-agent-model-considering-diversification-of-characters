@@ -45,10 +45,15 @@ class CharacterBase(object):
         sys_da = self.situation.sys_da
         user_da = self.situation.user_da
         if user_da == "chatting":
+            # フレームが更新されないならネガポジ値を算出
             self.__update_emotion_by_text(text)
         elif self.situation._is_fill_frame():
-            # コンセプト毎に評価する
-            pass
+            # コンセプト毎に感情度・関心度を評価する
+            for key in self.params_set.keys():
+                concept = self.situation.frame[key]
+                param_set = self.params_set[key][concept]
+                self.emotion += param_set["emotion"]
+                self.interest += param_set["interest"]
 
     def __update_emotion_by_text(self, text):
         """フレームが更新されないテキストからネガポジ値を算出"""
