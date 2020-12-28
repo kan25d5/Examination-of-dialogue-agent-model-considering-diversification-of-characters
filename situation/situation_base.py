@@ -53,6 +53,9 @@ class SituationBase(object):
                 return False
         return True
 
+    def update_parameter_by_frame(self):
+        pass
+
     def __get_situation_concept(self) -> dict:
         return load_json(SITUATION_CONCEPTS)[self.situation_str]
 

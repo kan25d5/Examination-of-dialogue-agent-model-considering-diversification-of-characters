@@ -28,7 +28,6 @@ class DialogSystem(object):
 
         self.user_da = self.situation.update_user_da()
         self.sys_da = self.situation.update_sys_da(text)
-        self.situation.update_parameter_by_frame()
         reply = self.character.reply(text)
 
         print("user_utt :", text)

@@ -35,7 +35,9 @@ class CharacterBase(object):
 
     def set_situation(self, situation):
         self.situation = situation
-        self.utt = load_json(UTT_PATH)[str(self.situation.situation_str)]
+        self.utt = load_json(UTT_PATH)[str(self.situation.situation_str)][
+            self.character_label
+        ]
 
     def calculate_point(self) -> float:
         """総合点を算出"""
@@ -49,6 +51,7 @@ class CharacterBase(object):
             self.__update_emotion_by_text(text)
         elif self.situation._is_fill_frame():
             # コンセプト毎に感情度・関心度を評価する
+            self.situation.update_parameter_by_frame()
             for key in self.params_set.keys():
                 concept = self.situation.frame[key]
                 param_set = self.params_set[key][concept]

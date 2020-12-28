@@ -82,5 +82,89 @@
                 "interest": 0.0
             }
         }
+    },
+    "character-pF": {
+        "date": {
+            "今日": {
+                "emotion": 0.0,
+                "interest": 0.0
+            },
+            "明日": {
+                "emotion": 0.0,
+                "interest": 0.0
+            }
+        },
+        "genre": {
+            "ラーメン": {
+                "emotion": 0.0,
+                "interest": 0.0
+            },
+            "寿司": {
+                "emotion": 0.0,
+                "interest": 0.0
+            },
+            "ステーキ": {
+                "emotion": 0.0,
+                "interest": 0.0
+            },
+            "焼肉": {
+                "emotion": 0.0,
+                "interest": 0.0
+            },
+            "カフェ": {
+                "emotion": 0.0,
+                "interest": 0.0
+            },
+            "居酒屋": {
+                "emotion": 0.0,
+                "interest": 0.0
+            },
+            "牛丼": {
+                "emotion": 0.0,
+                "interest": 0.0
+            }
+        }
+    },
+    "character-nF": {
+        "date": {
+            "今日": {
+                "emotion": 0.0,
+                "interest": 0.0
+            },
+            "明日": {
+                "emotion": 0.0,
+                "interest": 0.0
+            }
+        },
+        "genre": {
+            "ラーメン": {
+                "emotion": 0.0,
+                "interest": 0.0
+            },
+            "寿司": {
+                "emotion": 0.0,
+                "interest": 0.0
+            },
+            "ステーキ": {
+                "emotion": 0.0,
+                "interest": 0.0
+            },
+            "焼肉": {
+                "emotion": 0.0,
+                "interest": 0.0
+            },
+            "カフェ": {
+                "emotion": 0.0,
+                "interest": 0.0
+            },
+            "居酒屋": {
+                "emotion": 0.0,
+                "interest": 0.0
+            },
+            "牛丼": {
+                "emotion": 0.0,
+                "interest": 0.0
+            }
+        }
     }
 }

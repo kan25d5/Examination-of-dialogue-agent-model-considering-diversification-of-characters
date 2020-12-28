@@ -1,9 +1,25 @@
 {
     "situation-eat": {
-        "ask-genre": "ask-genre",
-        "ask-place": "ask-place",
-        "ask-date": "ask-date",
-        "not-act": "not-act",
-        "re-not-act": " re-not-act"
+        "normal": {
+            "ask-genre": "何にしますか？",
+            "ask-place": "どこで食べるの？",
+            "ask-date": "何時にしますか？",
+            "not-act": "今日はいいや。ごめんね。",
+            "re-not-act": " うん。でもやっぱり良いや。また今度ね。",
+            "re-act": "それなら良いよ。",
+            "act": "いいよ。行こう。"
+        },
+        "character-pM": {
+            "ask-genre": "何にすんの？",
+            "ask-place": "どこで食べんの？",
+            "ask-date": "何時にするんだ？",
+            "not-act": "今日はいいや。ごめんな。",
+            "re-not-act": " うん。でもやっぱり良いわ。また今度な。",
+            "re-act": "それなら良いぜ。",
+            "act": "いいよ。行こう。"
+        },
+        "character-nM": {},
+        "character-pF": {},
+        "character-nF": {}
     }
 }
