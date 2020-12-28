@@ -13,38 +13,38 @@
         "genre": {
             "ラーメン": {
                 "emotion": 0.0,
-                "interest": 0.0
+                "interest": 1.5
             },
             "寿司": {
                 "emotion": 0.0,
-                "interest": 0.0
+                "interest": 1.0
             },
             "ステーキ": {
                 "emotion": 0.0,
-                "interest": 0.0
+                "interest": 1.0
             },
             "焼肉": {
                 "emotion": 0.0,
-                "interest": 0.0
+                "interest": 1.0
             },
             "カフェ": {
                 "emotion": 0.0,
-                "interest": 0.0
+                "interest": 1.5
             },
             "居酒屋": {
                 "emotion": 0.0,
-                "interest": 0.0
+                "interest": 1.0
             },
             "牛丼": {
                 "emotion": 0.0,
-                "interest": 0.0
+                "interest": 0.3
             }
         }
     },
     "character-nM": {
         "date": {
             "今日": {
-                "emotion": 0.0,
+                "emotion": -0.3,
                 "interest": 0.0
             },
             "明日": {
@@ -55,27 +55,27 @@
         "genre": {
             "ラーメン": {
                 "emotion": 0.0,
-                "interest": 0.0
+                "interest": 0.2
             },
             "寿司": {
                 "emotion": 0.0,
-                "interest": 0.0
+                "interest": 0.6
             },
             "ステーキ": {
                 "emotion": 0.0,
-                "interest": 0.0
+                "interest": 0.6
             },
             "焼肉": {
                 "emotion": 0.0,
-                "interest": 0.0
+                "interest": 0.6
             },
             "カフェ": {
                 "emotion": 0.0,
-                "interest": 0.0
+                "interest": 0.6
             },
             "居酒屋": {
                 "emotion": 0.0,
-                "interest": 0.0
+                "interest": 0.3
             },
             "牛丼": {
                 "emotion": 0.0,
@@ -97,31 +97,31 @@
         "genre": {
             "ラーメン": {
                 "emotion": 0.0,
-                "interest": 0.0
+                "interest": -0.3
             },
             "寿司": {
                 "emotion": 0.0,
-                "interest": 0.0
+                "interest": 1.0
             },
             "ステーキ": {
                 "emotion": 0.0,
-                "interest": 0.0
+                "interest": 1.0
             },
             "焼肉": {
                 "emotion": 0.0,
-                "interest": 0.0
+                "interest": 1.0
             },
             "カフェ": {
                 "emotion": 0.0,
-                "interest": 0.0
+                "interest": 0.8
             },
             "居酒屋": {
                 "emotion": 0.0,
-                "interest": 0.0
+                "interest": 0.2
             },
             "牛丼": {
                 "emotion": 0.0,
-                "interest": 0.0
+                "interest": -0.6
             }
         }
     },
@@ -129,7 +129,7 @@
         "date": {
             "今日": {
                 "emotion": 0.0,
-                "interest": 0.0
+                "interest": -0.3
             },
             "明日": {
                 "emotion": 0.0,
@@ -139,15 +139,15 @@
         "genre": {
             "ラーメン": {
                 "emotion": 0.0,
-                "interest": 0.0
+                "interest": -0.6
             },
             "寿司": {
                 "emotion": 0.0,
-                "interest": 0.0
+                "interest": 0.2
             },
             "ステーキ": {
                 "emotion": 0.0,
-                "interest": 0.0
+                "interest": 0.2
             },
             "焼肉": {
                 "emotion": 0.0,
@@ -155,15 +155,15 @@
             },
             "カフェ": {
                 "emotion": 0.0,
-                "interest": 0.0
+                "interest": 1.0
             },
             "居酒屋": {
                 "emotion": 0.0,
-                "interest": 0.0
+                "interest": -0.2
             },
             "牛丼": {
                 "emotion": 0.0,
-                "interest": 0.0
+                "interest": -1.0
             }
         }
     }

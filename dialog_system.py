@@ -2,7 +2,7 @@ from situation.situation_domain_predict import SituationDomainPredict
 from character.pM import CharacterPM
 
 CM = CharacterPM()
-UTTS = ["今日飯行かね？", "牛丼とかどう？", "海老名にあるんだけど", "美味しいって噂の店だよ"]
+UTTS = ["今日飯行かね？", "焼肉とかどう？", "海老名にあるんだけど", "美味しいって噂の店だよ"]
 
 
 class DialogSystem(object):

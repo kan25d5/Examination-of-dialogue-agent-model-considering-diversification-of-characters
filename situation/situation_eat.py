@@ -27,16 +27,23 @@ class SituationEat(SituationBase):
             # 総合点が閾値を超えた → 行動する
             if self.__is_character_act():
                 if not self._is_update_frame():
-                    self.sys_da = "re-act"
+                    # FIXME: act状態でchattingされた場合は、またactする
+                    if self.sys_da != "act":
+                        # 断ったが、chattingで感情値が更新されactになったら
+                        # re-actで「やっぱ行くよ」みたいなこと言う
+                        self.sys_da = "re-act"
                 else:
                     self.sys_da = "act"
             # 総合点が閾値を下回った → 行動しない
             else:
                 if not self._is_update_frame():
+                    # chattingで感情値が更新されたが、
+                    # 行動には至らなかったら「でもごめんね」みたいなこと言う
                     self.sys_da = "re-not-act"
                 else:
                     self.sys_da = "not-act"
         else:
+            # 足らない属性があれば、それを尋ねる
             if self.frame["date"] == "":
                 self.sys_da = "ask-date"
             elif self.frame["genre"] == "":
