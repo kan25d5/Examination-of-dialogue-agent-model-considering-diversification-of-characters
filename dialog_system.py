@@ -25,6 +25,7 @@ class DialogSystem(object):
             self.situation.set_character(self.character)
             self.character.set_situation(self.situation)
             self.is_init = False
+            print(str(self.character))
 
         self.user_da = self.situation.update_user_da()
         self.sys_da = self.situation.update_sys_da(text)
