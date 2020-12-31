@@ -1,6 +1,4 @@
-import copy
 from helper.helper_functions import load_json
-from character.character_base import CharacterBase
 
 SITUATION_CONCEPTS = "data/situation_concepts.json"
 
@@ -10,52 +8,49 @@ class SituationBase(object):
     会話シチュエーションモデルの基底クラス
     """
 
-    def __init__(self, situation_str: str) -> None:
-        self.situation_str = situation_str
+    def __init__(self, situation_label: str):
+        self.situation_concept = self.__get_situation_concept(situation_label)
         self.sys_da = ""
         self.user_da = ""
+        self.user_utt = ""
         self.frame = {}
-        self.pre_frame = {}
-        self.chatting_flag = False
-        self.character = None
-        self.situation_concept = self.__get_situation_concept()
-        self._init_frame()
+        self.frame_history = []
+        self.init_frame()
 
-    def set_character(self, character: CharacterBase):
-        self.character = character
-
-    def _init_frame(self):
+    def init_frame(self):
         for key in self.situation_concept.keys():
             self.frame[key] = ""
 
     def _update_frame(self, text):
-        self.pre_frame = copy.deepcopy(self.frame)
-
-        for key in self.situation_concept.keys():
+        self.user_utt = text
+        for key in self.frame.keys():
             for concept in self.situation_concept[key]:
                 if concept in text:
                     self.frame[key] = concept
-                    self.user_da = "anser-" + key
-        return self.user_da
+                    self.user_da = "anser-concept"
+        self.__add_frame_history(self.frame)
+        return self.frame
 
-    def _is_update_frame(self):
-        return self.pre_frame != self.frame
+    def diff_frame(self):
+        if len(self.frame_history) < 2:
+            return self.frame
+        return dict(self.frame_history[-1].items() - self.frame_history[-2].items())
 
-    def _is_fill_frame(self):
+    def check_update_frame(self):
+        return {} != self.diff_frame()
+
+    def check_fill_frame(self):
         for key in self.frame.keys():
             if self.frame[key] == "":
                 return False
         return True
 
-    def _is_init_frame(self):
-        for key in self.frame.keys():
-            if self.frame[key] != "":
-                return False
-        return True
+    def __add_frame_history(self, frame):
+        f = {}
+        for key, item in frame.items():
+            f[key] = item
+        self.frame_history.append(f)
 
-    def update_parameter_by_frame(self):
-        pass
-
-    def __get_situation_concept(self) -> dict:
-        return load_json(SITUATION_CONCEPTS)[self.situation_str]
+    def __get_situation_concept(self, situation_label) -> dict:
+        return load_json(SITUATION_CONCEPTS)[situation_label]
 

@@ -2,7 +2,9 @@ import oseti
 import pandas as pd
 from helper.cabocha_helper import USER_DIC
 from helper.helper_functions import load_json
-from numpy import sqrt
+from situation.situation_base import SituationBase
+from convert_utt.character_utt_model import CharacterUttModel
+from convert_utt.make_rule import MakeRule
 
 
 MAX_DISTANCE = 40000
@@ -17,7 +19,7 @@ class CharacterBase(object):
     キャラクタモデルの基底クラス
     """
 
-    def __init__(self, character_label: str):
+    def __init__(self, situation: SituationBase, character_label: str):
         # 派生クラス内で定義するフィールド変数
         self.emotion = 0.0  # 感情度
         self.interest = 0.5  # 関心度
@@ -25,77 +27,63 @@ class CharacterBase(object):
         self.threshold_point = 0.0  # 行動する／しないの閾値
         self.first_personal_pronoun = ""  # 一人称代名詞
         self.third_personal_pronoun = ""  # 三人称代名詞
-        self.now_time = 18
 
         # 基底クラスが保持するフィールド変数
-        self.situation = None
+        self.situation = situation
         self.character_label = character_label
         self.params_set = load_json(CHARACTER_PARAM_SET)[self.character_label]
+        self.utt = load_json(UTT_PATH)[str(self.situation)]["normal"]
+        self.convert_utt = self.__get_convert_model()
 
         # 基底クラスが保持するプライベートフィールド変数
         self.__oseti = oseti.Analyzer(USER_DIC)
-        self.__sation_df = pd.read_csv(STATION_FILE_PATH)
-        self.__pre_frame = {}
 
-    def set_situation(self, situation):
-        self.situation = situation
-        self.utt = load_json(UTT_PATH)[str(self.situation.situation_str)][
-            self.character_label
-        ]
+    def get_sys_da(self, text, threshold_point):
+        self.situation._update_frame(text)
 
-    def calculate_point(self) -> float:
-        """総合点を算出"""
-        return (self.emotion + self.interest + self.intimacy) / 3
-
-    def update_point(self, text):
-        sys_da = self.situation.sys_da
-        user_da = self.situation.user_da
-        frame = self.situation.frame
-
-        if user_da == "chatting":
-            # フレームが更新されないならネガポジ値を算出
-            self.__update_emotion_by_text(text)
+        if self.situation.check_update_frame():
+            self._evaluate_param_by_frame()
         else:
-            for key in frame.keys():
-                if key not in self.__pre_frame.keys():
-                    if frame[key] != "":
-                        self.__update_param_by_frame(key, frame[key])
-                        self.__pre_frame.update({key: frame[key]})
+            self._evaluate_param_by_text(text)
 
-    def __update_param_by_frame(self, key, concept):
-        if key == "place":
-            self.__update_interest_by_distance(concept)
-            return
-        if concept not in self.params_set[key].keys():
-            return
-        param = self.params_set[key][concept]
-        self.emotion += param["emotion"]
-        self.interest += param["interest"]
+        point = self._caculate_point()
+        sys_da = self.situation.get_sys_da(point, threshold_point)
 
-    def __update_emotion_by_text(self, text):
-        """フレームが更新されないテキストからネガポジ値を算出"""
-        emotion = 0
-        for point in self.__oseti.analyze(text):
-            emotion += ((2 * point - 1) / 2) * 2
+        return sys_da
 
-        self.emotion += emotion
+    def _evaluate_param_by_frame(self):
+        if len(self.situation.frame_history) < 2:
+            # 初回のフレーム更新はすべて属性値の関心度を加算する
+            for key, item in self.situation.frame.items():
+                if item in self.params_set[key]:
+                    self.interest += self.params_set[key][item]
+        else:
+            frame = self.situation.frame
+            pre_frame = self.situation.frame_history[-2]
 
-    def __get_distance(self, dest):
-        """神奈川工科大学から場所までの距離を算出"""
-        # ox, oy = df[df.station == orig].iloc[0, :].values[1:3]
-        df = self.__sation_df
-        ox, oy = -44662, -56845
-        dx, dy = df[df.station == dest].iloc[0, :].values[1:3]
-        return int(round(sqrt((ox - dx) ** 2 + (oy - dy) ** 2)))
+            for key, item in frame.items():
+                if frame[key] == "":
+                    # 該当属性が空
+                    continue
+                if pre_frame[key] == frame[key]:
+                    # 前回の属性値と変更なし
+                    continue
+                if pre_frame[key] != frame[key] and pre_frame[key] != "":
+                    # 前回の属性値から更新された場合
+                    # 前回の属性値の関心度は減算する
+                    self.interest -= self.params_set[key][pre_frame[key]]
+                self.interest += self.params_set[key][item]
 
-    def __update_interest_by_distance(self, place):
-        """近いとの距離から感情度を加算"""
-        # ２駅間の距離を算出
-        distance = self.__get_distance(place)
-        # 距離をMAX_DISTANCE以上にしない
-        distance = distance if distance < MAX_DISTANCE else MAX_DISTANCE
-        # [0,1]で正規化
-        interest = distance / MAX_DISTANCE
-        print("interest", interest)
+    def _evaluate_param_by_text(self, text):
+        self.emotion += sum([o for o in self.__oseti.analyze(text)])
 
-        self.interest -= interest
+    def _caculate_point(self):
+        return (self.interest + self.intimacy + self.emotion) / 3
+
+    def __get_convert_model(self):
+        character_utt = load_json(UTT_PATH)[str(self.situation)][self.character_label]
+        mr = MakeRule()
+        for n_utt, c_utt in zip(self.utt.values(), character_utt.values()):
+            mr.extract_rule(n_utt, c_utt)
+
+        return CharacterUttModel(mr.df_rule)

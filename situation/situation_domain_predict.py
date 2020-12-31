@@ -39,5 +39,5 @@ class SituationDomainPredict(object):
         if situation_type == "situation-eat":
             from situation.situation_eat import SituationEat
 
-            return SituationEat
+            return SituationEat()
 
