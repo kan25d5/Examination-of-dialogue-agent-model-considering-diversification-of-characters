@@ -1,22 +1,41 @@
 {
     "situation-eat": {
-        "normal": {
-            "ask-genre": "何にしますか？",
-            "ask-place": "どこで食べるの？",
-            "ask-date": "何時にしますか？",
-            "not-act": "今日はいいや。ごめんね。",
-            "re-not-act": " うん。でもやっぱり良いや。また今度ね。",
-            "re-act": "それなら良いよ。",
-            "act": "いいよ。行こう。"
-        },
         "character-pM": {
-            "ask-genre": "何にすんの？",
-            "ask-place": "どこで食べんの？",
+            "ask-genre": "何にするんだ？",
+            "ask-place": "どこで食べるんだ？",
             "ask-date": "何時にするんだ？",
-            "not-act": "今日はいいや。ごめんな。",
-            "re-not-act": " うん。でもやっぱり良いわ。また今度な。",
-            "re-act": "それなら良いぜ。",
-            "act": "いいね。行こう。"
+            "ask-number-of-people": "他には誰がいるのか？",
+            "not-act": "今回は遠慮しておくわ。",
+            "re-not-act": "悪いけど、また今度誘ってくれ。",
+            "re-act": "それなら良いぜ",
+            "act": "いいね！じゃあ__date__、__place__集合しよう。"
+        },
+        "character-pF": {
+            "ask-genre": "",
+            "ask-place": "",
+            "ask-date": "",
+            "not-act": "",
+            "re-not-act": "",
+            "re-act": "",
+            "act": ""
+        },
+        "character-nM": {
+            "ask-genre": "",
+            "ask-place": "",
+            "ask-date": "",
+            "not-act": "",
+            "re-not-act": "",
+            "re-act": "",
+            "act": ""
+        },
+        "character-nF": {
+            "ask-genre": "",
+            "ask-place": "",
+            "ask-date": "",
+            "not-act": "",
+            "re-not-act": "",
+            "re-act": "",
+            "act": ""
         }
     }
 }

@@ -30,16 +30,17 @@ class CharacterBase(object):
 
         # 基底クラスが保持するフィールド変数
         self.situation = situation
+        self.user_utt = ""
+        self.sys_utt = ""
         self.character_label = character_label
         self.params_set = load_json(CHARACTER_PARAM_SET)[self.character_label]
-        self.utt = load_json(UTT_PATH)[str(self.situation)]["normal"]
-        self.convert_utt = self.__get_convert_model()
+        self.utt = load_json(UTT_PATH)[str(self.situation)][self.character_label]
 
         # 基底クラスが保持するプライベートフィールド変数
         self.__oseti = oseti.Analyzer(USER_DIC)
 
-    def get_sys_da(self, text, threshold_point):
-        self.situation._update_frame(text)
+    def get_sys_da(self, text: str, threshold_point: float) -> str:
+        self.situation.update_frame(text)
 
         if self.situation.check_update_frame():
             self._evaluate_param_by_frame()
@@ -77,13 +78,15 @@ class CharacterBase(object):
     def _evaluate_param_by_text(self, text):
         self.emotion += sum([o for o in self.__oseti.analyze(text)])
 
-    def _caculate_point(self):
-        return (self.interest + self.intimacy + self.emotion) / 3
+    def _caculate_point(self) -> float:
+        return self.interest + self.intimacy + self.emotion
 
-    def __get_convert_model(self):
-        character_utt = load_json(UTT_PATH)[str(self.situation)][self.character_label]
-        mr = MakeRule()
-        for n_utt, c_utt in zip(self.utt.values(), character_utt.values()):
-            mr.extract_rule(n_utt, c_utt)
+    def _convert_text(self, sys_utt: str) -> str:
+        frame = self.situation.frame
 
-        return CharacterUttModel(mr.df_rule)
+        for key in frame.keys():
+            sys_utt = sys_utt.replace("__" + key + "__", frame[key])
+        sys_utt = sys_utt.replace("__FPP__", self.first_personal_pronoun)
+        sys_utt = sys_utt.replace("__TPP__", self.third_personal_pronoun)
+
+        return sys_utt

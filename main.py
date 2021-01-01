@@ -1,8 +1,20 @@
 from situation.situation_domain_predict import SituationDomainPredict
+from character.character_base import CharacterBase
+from situation.situation_base import SituationBase
+
 from character.pM import CharacterPM
 
-UTTS = ["今日飯行かない？", "焼肉とかどう？", "横浜", "じゃあ本厚木で食べよ", "美味しいよ"]
+FIRST_UTT = "今日飯行かない？"
+UTTS = {
+    "ask-number-of-people": "他はいないよ",
+    "ask-genre": "ラーメンとかどう？",
+    "ask-place": "本厚木でどう？",
+}
 CHARACTER = CharacterPM
+
+
+character: CharacterBase
+situation: SituationBase
 
 
 def get_situation(first_utt):
@@ -10,29 +22,46 @@ def get_situation(first_utt):
     return sdp.get_situation(first_utt)
 
 
-def display_character_info(character):
+def display_character_info():
+    print("user_utt", character.user_utt)
+    print("sys_utt", character.sys_utt)
     print("emotion", character.emotion)
     print("interest", character.interest)
     print("intimacy", character.intimacy)
     print("point", character._caculate_point())
 
 
-def display_situation_info(situation):
-    print("user_utt", situation.user_utt)
+def display_situation_info():
     print("sys_da", situation.sys_da)
     print("user_da", situation.user_da)
     print("frame", situation.frame)
 
 
-def main():
-    situation = get_situation(UTTS[0])
-    character = CharacterPM(situation)
+def utt_step(f, text):
+    character.reply(text)
+    display_situation_info()
+    display_character_info()
+    f.write("User : " + character.user_utt + "\n")
+    f.write("System : " + character.sys_utt + "\n")
 
-    for utt in UTTS:
-        print("reply", character.reply(utt))
-        display_situation_info(situation)
-        display_character_info(character)
-        print("---------------------")
+    print("-------------------------")
+
+
+def main():
+    global character
+    global situation
+
+    first_utt = FIRST_UTT
+    situation = get_situation(first_utt)
+    character = CharacterPM(situation)
+    f = open(str(character), "w")
+
+    utt_step(f, first_utt)
+    while situation.sys_da.startswith("ask"):
+        text = UTTS[situation.sys_da]
+        utt_step(f, text)
+
+    f.close()
 
 
 if __name__ == "__main__":

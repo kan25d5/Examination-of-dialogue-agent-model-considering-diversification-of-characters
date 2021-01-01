@@ -20,10 +20,12 @@ class CharacterPM(CharacterBase):
         self.third_personal_pronoun = ""  # 三人称代名詞
 
     def reply(self, text):
-        sys_da = self.get_sys_da(text, THRESHOLD_POINT)
-        sys_utt = self.utt[sys_da]
+        self.user_utt = text
+        sys_da = self.get_sys_da(self.user_utt, THRESHOLD_POINT)
+        self.sys_utt = self.utt[sys_da]
+        self.sys_utt = self._convert_text(self.sys_utt)
 
-        return self.convert_utt.convert_text(sys_utt)
+        return self.sys_utt
 
     def __str__(self) -> str:
         return "character-pM"
