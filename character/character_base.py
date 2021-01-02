@@ -53,6 +53,8 @@ class CharacterBase(object):
         if len(self.situation.frame_history) < 2:
             # 初回のフレーム更新はすべて属性値の関心度を加算する
             for key, item in self.situation.frame.items():
+                if not key in self.params_set.keys():
+                    continue
                 if item in self.params_set[key]:
                     self.interest += self.params_set[key][item]
         else:
