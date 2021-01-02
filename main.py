@@ -3,6 +3,9 @@ from character.character_base import CharacterBase
 from situation.situation_base import SituationBase
 
 from character.pM import CharacterPM
+from character.pF import CharacterPF
+from character.nM import CharacterNM
+from character.nF import CharacterNF
 
 FIRST_UTT = "今日飯行かない？"
 UTTS = {
@@ -10,7 +13,6 @@ UTTS = {
     "ask-genre": "ラーメンとかどう？",
     "ask-place": "本厚木でどう？",
 }
-CHARACTER = CharacterPM
 
 
 character: CharacterBase
@@ -47,13 +49,13 @@ def utt_step(f, text):
     print("-------------------------")
 
 
-def main():
+def make_dialog():
     global character
     global situation
 
     first_utt = FIRST_UTT
     situation = get_situation(first_utt)
-    character = CharacterPM(situation)
+    character = character(situation)
     f = open(str(character), "w")
 
     utt_step(f, first_utt)
@@ -62,6 +64,19 @@ def main():
         utt_step(f, text)
 
     f.close()
+
+
+def main():
+    global character
+
+    character = CharacterNF
+    make_dialog()
+    character = CharacterNM
+    make_dialog()
+    character = CharacterPF
+    make_dialog()
+    character = CharacterPM
+    make_dialog()
 
 
 if __name__ == "__main__":

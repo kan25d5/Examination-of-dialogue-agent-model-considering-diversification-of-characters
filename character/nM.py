@@ -1,10 +1,11 @@
+from character.character_base import CharacterBase
 from situation.situation_base import SituationBase
 
 # 行動する／しないの閾値
 THRESHOLD_POINT = 0.5
 
 
-class CharacterNM(SituationBase):
+class CharacterNM(CharacterBase):
     """
     内向的男性のキャラクタモデル
     """
