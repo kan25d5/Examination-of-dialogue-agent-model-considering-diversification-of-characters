@@ -3,11 +3,8 @@ import pandas as pd
 from helper.cabocha_helper import USER_DIC
 from helper.helper_functions import load_json
 from situation.situation_base import SituationBase
-from convert_utt.character_utt_model import CharacterUttModel
-from convert_utt.make_rule import MakeRule
 
 
-MAX_DISTANCE = 40000
 MAX_DISTANCE = 40000
 CHARACTER_PARAM_SET = "data/character_parameter_setting.json"
 UTT_PATH = "data/character_utt.json"

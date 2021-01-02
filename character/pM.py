@@ -3,7 +3,7 @@ from situation.situation_base import SituationBase
 
 
 # 行動する／しないの閾値
-THRESHOLD_POINT = 0.3
+THRESHOLD_POINT = 0.7
 
 
 class CharacterPM(CharacterBase):
@@ -16,8 +16,8 @@ class CharacterPM(CharacterBase):
 
         # 派生クラス内で定義するフィールド変数
         self.threshold_point = THRESHOLD_POINT  # 行動する／しないの閾値
-        self.first_personal_pronoun = ""  # 一人称代名詞
-        self.third_personal_pronoun = ""  # 三人称代名詞
+        self.first_personal_pronoun = "俺"  # 一人称代名詞
+        self.second_personal_pronoun = "お前"  # 二人称代名詞
 
     def reply(self, text):
         self.user_utt = text
