@@ -4,38 +4,37 @@
             "ask-genre": "何にするんだ？",
             "ask-place": "どこで食べるんだ？",
             "ask-date": "何時にするんだ？",
-            "ask-number-of-people": "他には誰がいるのか？",
-            "not-act": "今回は遠慮しておくわ。",
-            "re-not-act": "悪いけど、また今度誘ってくれ。",
-            "re-act": "それなら良いぜ",
-            "act": "いいね！じゃあ__date__、__place__集合しよう。"
+            "not-act": "今日は気分が乗らないから良いや、また今度な。",
+            "re-not-act": "悪いな。また今度。",
+            "re-act": "まあ、そこまで言うなら行ってもいいぜ。",
+            "act": "良いね。じゃあ__date____place__に集合な。"
         },
         "character-pF": {
-            "ask-genre": "",
-            "ask-place": "",
-            "ask-date": "",
-            "not-act": "",
-            "re-not-act": "",
-            "re-act": "",
-            "act": ""
+            "ask-genre": "何にするの？",
+            "ask-place": "どこのお店なの？",
+            "ask-date": "何時にするの？",
+            "not-act": "ごめんね。今日予定があるのを思い出したから、また今度ね。",
+            "re-not-act": "ごめんなさい。また今度誘ってね。",
+            "re-act": "まあ、そこまで言うなら行ってもいいよ。",
+            "act": "分かった。__date__に__place__駅前に行くね。"
         },
         "character-nM": {
-            "ask-genre": "",
-            "ask-place": "",
-            "ask-date": "",
+            "ask-genre": "何にするの？",
+            "ask-place": "どこのお店にするの？",
+            "ask-date": "何時なの？",
             "not-act": "",
             "re-not-act": "",
             "re-act": "",
             "act": ""
         },
         "character-nF": {
-            "ask-genre": "",
-            "ask-place": "",
-            "ask-date": "",
-            "not-act": "",
-            "re-not-act": "",
-            "re-act": "",
-            "act": ""
+            "ask-genre": "何にするの？",
+            "ask-place": "どこなの？",
+            "ask-date": "何時にするんだい？",
+            "not-act": "ごめん。今日は気分が乗らないなら、また今度誘ってくれ。",
+            "re-not-act": "悪いね。",
+            "re-act": "まあ、そこまで言うなら...",
+            "act": "まあ分かった。__place__だね。"
         }
     }
 }
