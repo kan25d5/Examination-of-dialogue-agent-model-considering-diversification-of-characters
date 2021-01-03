@@ -16,17 +16,6 @@ class SituationEat(SituationBase):
 
     def update_frame(self, text):
         self._update_frame(text)
-        if self.__re_nop.match(text) is not None:
-            v = self.__re_nop.match(text).group(0)
-            num = int(v.replace("人", ""))
-            if num >= 5:
-                self.frame.update({"number-of-people": "5人以上"})
-            else:
-                self.frame.update({"number-of-people": v})
-            self.frame_history[-1] = self.frame
-        elif text in OTHER_UTT:
-            self.frame.update({"number-of-people": "2人"})
-            self.frame_history[-1] = self.frame
 
     def get_sys_da(self, point, threshold_point):
         if self.check_fill_frame():

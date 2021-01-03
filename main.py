@@ -56,7 +56,8 @@ def make_dialog():
     first_utt = FIRST_UTT
     situation = get_situation(first_utt)
     character = character(situation)
-    f = open(str(character), "w")
+    filepath = "logs/" + str(character) + "_" + str(situation)
+    f = open(filepath, "w")
 
     utt_step(f, first_utt)
     while situation.sys_da.startswith("ask"):

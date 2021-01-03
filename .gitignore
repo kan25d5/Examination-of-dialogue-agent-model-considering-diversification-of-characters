@@ -126,3 +126,7 @@ dmypy.json
 
 # vscode user folder
 .vscode/
+
+# user_floder
+memo/
+logs/
