@@ -1,5 +1,4 @@
 import oseti
-import pandas as pd
 from helper.cabocha_helper import USER_DIC
 from helper.helper_functions import load_json
 from situation.situation_base import SituationBase
@@ -8,7 +7,6 @@ from situation.situation_base import SituationBase
 MAX_DISTANCE = 40000
 CHARACTER_PARAM_SET = "data/character_parameter_setting.json"
 UTT_PATH = "data/character_utt.json"
-STATION_FILE_PATH = "data/stations-simplify.csv"
 
 
 class CharacterBase(object):
@@ -53,7 +51,7 @@ class CharacterBase(object):
         if len(self.situation.frame_history) < 2:
             # 初回のフレーム更新はすべて属性値の関心度を加算する
             for key, item in self.situation.frame.items():
-                if not key in self.params_set.keys():
+                if key not in self.params_set.keys():
                     continue
                 if item in self.params_set[key]:
                     self.interest += self.params_set[key][item]
