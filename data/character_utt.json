@@ -36,5 +36,43 @@
             "re-act": "まあ、そこまで言うなら...",
             "act": "まあ分かった。__place__だね。"
         }
+    },
+    "situation-game": {
+        "character-pF": {
+            "ask-genre": "どんなゲームなんだ？",
+            "ask-number-of-people": "何人でやるゲームなんだ？",
+            "ask-type": "どうやって遊ぶんだ？",
+            "not-act": "",
+            "act": "",
+            "re-act": "",
+            "re-not-act": ""
+        },
+        "character-nF": {
+            "ask-genre": "どんなゲームなんだ？",
+            "ask-number-of-people": "何人でやるゲームなんだ？",
+            "ask-type": "どうやって遊ぶんだ？",
+            "not-act": "",
+            "act": "",
+            "re-act": "",
+            "re-not-act": ""
+        },
+        "character-pM": {
+            "ask-genre": "どんなゲームなんだ？",
+            "ask-number-of-people": "何人でやるゲームなんだ？",
+            "ask-type": "どうやって遊ぶんだ？",
+            "not-act": "",
+            "act": "",
+            "re-act": "",
+            "re-not-act": ""
+        },
+        "character-nM": {
+            "ask-genre": "どんなゲームなんだ？",
+            "ask-number-of-people": "何人でやるゲームなんだ？",
+            "ask-type": "どうやって遊ぶんだ？",
+            "not-act": "",
+            "act": "",
+            "re-act": "",
+            "re-not-act": ""
+        }
     }
 }

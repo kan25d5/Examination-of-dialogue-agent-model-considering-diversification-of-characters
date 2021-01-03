@@ -29,6 +29,8 @@ class CharacterBase(object):
         self.sys_utt = ""
         self.character_label = character_label
         params_set_dic = load_json(CHARACTER_PARAM_SET)
+
+        print(str(self.situation), self.character_label)
         self.params_set = params_set_dic[str(self.situation)][self.character_label]
         self.utt = load_json(UTT_PATH)[str(self.situation)][self.character_label]
 

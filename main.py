@@ -7,11 +7,11 @@ from character.pF import CharacterPF
 from character.nM import CharacterNM
 from character.nF import CharacterNF
 
-FIRST_UTT = "今日飯行かない？"
+FIRST_UTT = "今日amoung usってゲームやらない？"
 UTTS = {
-    "ask-number-of-people": "他はいないよ",
-    "ask-genre": "ラーメンとかどう？",
-    "ask-place": "本厚木でどう？",
+    "ask-number-of-people": "6人くらいでやるゲームだよ",
+    "ask-genre": "人狼ゲームだよ",
+    "ask-type": "人狼を見つけるゲームだよ",
 }
 
 

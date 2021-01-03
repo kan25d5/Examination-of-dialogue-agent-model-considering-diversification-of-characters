@@ -1,3 +1,4 @@
+import re
 from situation.situation_base import SituationBase
 
 
@@ -8,6 +9,7 @@ class SituationGame(SituationBase):
 
     def __init__(self):
         super().__init__(self.__str__())
+        self.__re_nop = re.compile(r"\d+人")
 
     def update_frame(self, text):
         self._update_frame(text)
