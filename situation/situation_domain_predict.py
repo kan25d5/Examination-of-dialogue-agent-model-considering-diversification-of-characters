@@ -29,21 +29,22 @@ class SituationDomainPredict(object):
     def create_predict_model(self):
         # 訓練データの増幅
         GenerateSamples().generate_samples()
-        # 訓練データをDataFrameへ変換
-        self.training_data = pd.read_csv(TRAINING_DATA_PATH)
         # シチュエーション予測モデルを学習
         self.__training_predicter_model()
         # モデルを保存
         self.__write_model()
 
     def __training_predicter_model(self):
+        # 訓練データをDataFrameへ変換
+        training_data = pd.read_csv(TRAINING_DATA_PATH)
+
         # 発話データを分かち書きしてベクトル化
         self.vectorizer = TfidfVectorizer(analyzer=tokenizer)
-        X = self.vectorizer.fit_transform(self.training_data["utt"])
+        X = self.vectorizer.fit_transform(training_data["utt"])
 
         # 対話行為タイプをラベル化
         self.label_encoder = LabelEncoder()
-        Y = self.label_encoder.fit_transform(self.training_data["dialog_act_type"])
+        Y = self.label_encoder.fit_transform(training_data["dialog_act_type"])
 
         # SVMで学習
         self.svc = SVC(gamma="scale")
