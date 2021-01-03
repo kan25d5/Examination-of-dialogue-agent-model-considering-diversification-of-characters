@@ -13,7 +13,7 @@
             "ask-genre": "何にするの？",
             "ask-place": "どこのお店なの？",
             "ask-date": "何時にするの？",
-            "not-act": "ごめんね。。",
+            "not-act": "ごめんね。また今度誘って頂戴。",
             "re-not-act": "ごめんなさい。また今度誘ってね。",
             "re-act": "まあ、そこまで言うなら行ってもいいよ。",
             "act": "分かった。__date__に__place__駅前に行くね。"
@@ -39,38 +39,38 @@
     },
     "situation-game": {
         "character-pF": {
-            "ask-genre": "どんなゲームなんだ？",
-            "ask-number-of-people": "何人でやるゲームなんだ？",
-            "ask-type": "どうやって遊ぶんだ？",
-            "not-act": "",
-            "act": "",
+            "ask-genre": "どんなゲームなの？",
+            "ask-number-of-people": "何人でやるゲームなの？",
+            "ask-type": "どうやって遊ぶの？",
+            "not-act": "そういうゲームは苦手かも",
+            "act": "面白そうだね！やろうよ！",
             "re-act": "",
             "re-not-act": ""
         },
         "character-nF": {
-            "ask-genre": "どんなゲームなんだ？",
-            "ask-number-of-people": "何人でやるゲームなんだ？",
-            "ask-type": "どうやって遊ぶんだ？",
-            "not-act": "",
-            "act": "",
-            "re-act": "",
-            "re-not-act": ""
+            "ask-genre": "どんなゲームなの？",
+            "ask-number-of-people": "何人でやるゲームなの？",
+            "ask-type": "どうやって遊ぶの？",
+            "not-act": "私はちょっと苦手なゲームかも...",
+            "act": "面白そうだね。やろうよ。",
+            "re-act": "確かに面白そうだね。やろうよ。",
+            "re-not-act": "うーん...ごめん。いいや。"
         },
         "character-pM": {
             "ask-genre": "どんなゲームなんだ？",
             "ask-number-of-people": "何人でやるゲームなんだ？",
             "ask-type": "どうやって遊ぶんだ？",
-            "not-act": "",
-            "act": "",
-            "re-act": "",
-            "re-not-act": ""
+            "not-act": "俺には合わなそうだな。",
+            "act": "面白そうだな！やろうぜ",
+            "re-act": "なるほど。確かに面白そうだな。",
+            "re-not-act": "うーん。また今度誘ってくれ。"
         },
         "character-nM": {
-            "ask-genre": "どんなゲームなんだ？",
-            "ask-number-of-people": "何人でやるゲームなんだ？",
-            "ask-type": "どうやって遊ぶんだ？",
-            "not-act": "",
-            "act": "",
+            "ask-genre": "どんなゲームなんだい？",
+            "ask-number-of-people": "何人でやるゲームなんだい？",
+            "ask-type": "どうやって遊ぶんだい？",
+            "not-act": "私にはちょっと苦手かも...",
+            "act": "面白そう...！やってもいいよ",
             "re-act": "",
             "re-not-act": ""
         }
