@@ -27,12 +27,13 @@ class CharacterBase(object):
         self.situation = situation
         self.user_utt = ""
         self.sys_utt = ""
+        self.sys_da = ""
         self.character_label = character_label
         params_set_dic = load_json(CHARACTER_PARAM_SET)
 
-        print(str(self.situation), self.character_label)
         self.params_set = params_set_dic[str(self.situation)][self.character_label]
         self.utt = load_json(UTT_PATH)[str(self.situation)][self.character_label]
+        self.minimum_interest_concept = {"": 999}
 
         # 基底クラスが保持するプライベートフィールド変数
         self.__oseti = oseti.Analyzer(USER_DIC)
@@ -46,9 +47,9 @@ class CharacterBase(object):
             self._evaluate_param_by_text(text)
 
         point = self._caculate_point()
-        sys_da = self.situation.get_sys_da(point, threshold_point)
+        self.sys_da = self.situation.get_sys_da(point, threshold_point)
 
-        return sys_da
+        return self.sys_da
 
     def _evaluate_param_by_frame(self):
         if len(self.situation.frame_history) < 2:
@@ -57,8 +58,9 @@ class CharacterBase(object):
                 if key not in self.params_set.keys():
                     continue
                 if item in self.params_set[key].keys():
-                    print("self.params_set[key].keys()", self.params_set[key].keys())
-                    self.interest += self.params_set[key][item]
+                    point = self.params_set[key][item]
+                    self.interest += point
+                    self.update_minimum_interest_concept(item, point)
         else:
             frame = self.situation.frame
             pre_frame = self.situation.frame_history[-2]
@@ -75,7 +77,9 @@ class CharacterBase(object):
                     # 前回の属性値の関心度は減算する
                     self.interest -= self.params_set[key][pre_frame[key]]
                 if item in self.params_set[key].keys():
-                    self.interest += self.params_set[key][item]
+                    point = self.params_set[key][item]
+                    self.interest += point
+                    self.update_minimum_interest_concept(item, point)
 
     def _evaluate_param_by_text(self, text):
         self.emotion += sum([o for o in self.__oseti.analyze(text)])
@@ -92,5 +96,12 @@ class CharacterBase(object):
         sys_utt = sys_utt.replace("__TPP__", self.third_personal_pronoun)
 
         # not-actのとき、一番関心度が低い属性値を言及する
+        if "not-act" == self.sys_da:
+            concept = list(self.minimum_interest_concept.keys())[0]
+            sys_utt = sys_utt.replace("__concept__", concept)
 
         return sys_utt
+
+    def update_minimum_interest_concept(self, concept, point):
+        if point < list(self.minimum_interest_concept.values())[0]:
+            self.minimum_interest_concept = {concept: point}
