@@ -1,3 +1,4 @@
+from _io import TextIOWrapper
 from situation.situation_domain_predict import SituationDomainPredict
 from character.character_base import CharacterBase
 from situation.situation_base import SituationBase
@@ -23,6 +24,7 @@ UTTS = {
 
 character: CharacterBase
 situation: SituationBase
+f_file: TextIOWrapper
 
 
 def get_situation(first_utt):
@@ -45,12 +47,12 @@ def display_situation_info():
     print("frame", situation.frame)
 
 
-def utt_step(f, text):
+def utt_step(text):
     character.reply(text)
     display_situation_info()
     display_character_info()
-    f.write("User : " + character.user_utt + "\n")
-    f.write("System : " + character.sys_utt + "\n")
+    f_file.write("User : " + character.user_utt + "\n")
+    f_file.write("System : " + character.sys_utt + "\n")
 
     print("-------------------------")
 
@@ -58,20 +60,20 @@ def utt_step(f, text):
 def make_dialog():
     global character
     global situation
+    global f_file
 
     first_utt = FIRST_UTT
     situation = get_situation(first_utt)
     character = character(situation)
-    filepath = "logs/" + str(character) + "_" + str(situation)
-    f = open(filepath, "w")
+    filepath = "logs/" + str(situation)
+    f_file = open(filepath, "a")
+    f_file.write("character : " + str(character) + "\n")
 
-    utt_step(f, first_utt)
+    utt_step(first_utt)
     utts = UTTS[str(situation)]
     while situation.sys_da.startswith("ask"):
         text = utts[situation.sys_da]
-        utt_step(f, text)
-
-    f.close()
+        utt_step(text)
 
 
 def main():
@@ -79,18 +81,31 @@ def main():
 
     character = CharacterNF
     make_dialog()
-    print()
-    print()
+
+    f_file.write("\n")
+    f_file.write("\n")
+    f_file.close()
+
     character = CharacterNM
     make_dialog()
-    print()
-    print()
+
+    f_file.write("\n")
+    f_file.write("\n")
+    f_file.close()
+
     character = CharacterPF
     make_dialog()
-    print()
-    print()
+
+    f_file.write("\n")
+    f_file.write("\n")
+    f_file.close()
+
     character = CharacterPM
     make_dialog()
+
+    f_file.write("\n")
+    f_file.write("\n")
+    f_file.close()
 
 
 if __name__ == "__main__":
