@@ -21,7 +21,7 @@ class SituationEat(SituationBase):
         if self.check_fill_frame():
             if not self.check_update_frame():
                 self.user_da = "chatting"
-            if point > threshold_point:
+            if point >= threshold_point:
                 self.sys_da = "act"
             else:
                 self.sys_da = "not-act"
