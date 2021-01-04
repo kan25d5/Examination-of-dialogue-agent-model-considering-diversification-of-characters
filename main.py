@@ -7,13 +7,19 @@ from character.pF import CharacterPF
 from character.nM import CharacterNM
 from character.nF import CharacterNF
 
-FIRST_UTT = "今日amoung usってゲームやらない？"
+FIRST_UTT = "今日の夜ご飯いかない？"
 UTTS = {
-    "ask-number-of-people": "6人くらいでやるゲームだよ",
-    "ask-genre": "人狼ゲームだよ",
-    "ask-type": "人狼を見つけるゲームだよ",
+    "situation-game": {
+        "ask-number-of-people": "6人くらいでやるゲームだよ",
+        "ask-genre": "人狼ゲームだよ",
+        "ask-type": "人狼を見つけるゲームだよ",
+    },
+    "situation-eat": {
+        "ask-genre": "横浜においしいラーメン屋があるんだ",
+        "ask-place": "本厚木",
+        "ask-date": "今日",
+    },
 }
-
 
 character: CharacterBase
 situation: SituationBase
@@ -60,8 +66,9 @@ def make_dialog():
     f = open(filepath, "w")
 
     utt_step(f, first_utt)
+    utts = UTTS[str(situation)]
     while situation.sys_da.startswith("ask"):
-        text = UTTS[situation.sys_da]
+        text = utts[situation.sys_da]
         utt_step(f, text)
 
     f.close()
@@ -72,10 +79,16 @@ def main():
 
     character = CharacterNF
     make_dialog()
+    print()
+    print()
     character = CharacterNM
     make_dialog()
+    print()
+    print()
     character = CharacterPF
     make_dialog()
+    print()
+    print()
     character = CharacterPM
     make_dialog()
 

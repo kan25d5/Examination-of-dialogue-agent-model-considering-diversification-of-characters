@@ -2,7 +2,7 @@ from character.character_base import CharacterBase
 from situation.situation_base import SituationBase
 
 # 行動する／しないの閾値
-THRESHOLD_POINT = 0.5
+THRESHOLD_POINT = 0.7
 
 
 class CharacterNF(CharacterBase):

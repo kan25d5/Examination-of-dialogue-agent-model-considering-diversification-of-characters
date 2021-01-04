@@ -56,7 +56,8 @@ class CharacterBase(object):
             for key, item in self.situation.frame.items():
                 if key not in self.params_set.keys():
                     continue
-                if item in self.params_set[key]:
+                if item in self.params_set[key].keys():
+                    print("self.params_set[key].keys()", self.params_set[key].keys())
                     self.interest += self.params_set[key][item]
         else:
             frame = self.situation.frame
@@ -73,7 +74,8 @@ class CharacterBase(object):
                     # 前回の属性値から更新された場合
                     # 前回の属性値の関心度は減算する
                     self.interest -= self.params_set[key][pre_frame[key]]
-                self.interest += self.params_set[key][item]
+                if item in self.params_set[key].keys():
+                    self.interest += self.params_set[key][item]
 
     def _evaluate_param_by_text(self, text):
         self.emotion += sum([o for o in self.__oseti.analyze(text)])
@@ -88,5 +90,7 @@ class CharacterBase(object):
             sys_utt = sys_utt.replace("__" + key + "__", frame[key])
         sys_utt = sys_utt.replace("__FPP__", self.first_personal_pronoun)
         sys_utt = sys_utt.replace("__TPP__", self.third_personal_pronoun)
+
+        # not-actのとき、一番関心度が低い属性値を言及する
 
         return sys_utt
