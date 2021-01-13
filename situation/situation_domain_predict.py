@@ -1,11 +1,13 @@
 import os
 import dill
+import numpy as np
 import pandas as pd
 from data.generate_samples import GenerateSamples
 from helper.tokenizer import tokenizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import LabelEncoder
 from sklearn.svm import SVC
+from sklearn.model_selection import cross_val_score
 
 
 SITUATION_CONCEPTS = "data/situation_concepts.json"
@@ -18,23 +20,25 @@ class SituationDomainPredict(object):
     会話シチュエーションドメインを推定するモデル
     """
 
-    def __init__(self) -> None:
+    def __init__(self, is_test=False) -> None:
+        if is_test:
+            # 訓練データの増幅
+            GenerateSamples().generate_samples()
+            # 汎化性能を調べる
+            self.get_test_set_score()
+            return
         if os.path.exists(PREDICT_MODEL):
             # モデルをロード
             self.__load_model()
         else:
-            # モデルを作成
-            self.create_predict_model()
+            # 訓練データの増幅
+            GenerateSamples().generate_samples()
+            # シチュエーション予測モデルを学習
+            self.__training_predicter_model()
+            # モデルを保存
+            self.__write_model()
 
-    def create_predict_model(self):
-        # 訓練データの増幅
-        GenerateSamples().generate_samples()
-        # シチュエーション予測モデルを学習
-        self.__training_predicter_model()
-        # モデルを保存
-        self.__write_model()
-
-    def __training_predicter_model(self):
+    def __get_X_Y(self):
         # 訓練データをDataFrameへ変換
         training_data = pd.read_csv(TRAINING_DATA_PATH)
 
@@ -45,6 +49,11 @@ class SituationDomainPredict(object):
         # 対話行為タイプをラベル化
         self.label_encoder = LabelEncoder()
         Y = self.label_encoder.fit_transform(training_data["dialog_act_type"])
+
+        return X, Y
+
+    def __training_predicter_model(self):
+        X, Y = self.__get_X_Y()
 
         # SVMで学習
         self.svc = SVC(gamma="scale")
@@ -68,6 +77,18 @@ class SituationDomainPredict(object):
         Y = self.svc.predict(X)  # 予測
         da = self.label_encoder.inverse_transform(Y)[0]  # ラベルを返す
         return da
+
+    def get_test_set_score(self):
+        """汎化性能を調べる"""
+        X, Y = self.__get_X_Y()
+        svc = SVC(gamma="scale")
+        scores = cross_val_score(svc, X, Y)
+
+        # 各分割におけるスコア
+        print("Cross-Validation scores: {}".format(scores))
+
+        # スコアの平均値
+        print("Average score: {}".format(np.mean(scores)))
 
     def get_situation(self, text):
         """シチュエーションを推定してクラスを返す"""
